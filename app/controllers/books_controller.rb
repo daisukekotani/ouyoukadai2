@@ -1,11 +1,13 @@
 class BooksController < ApplicationController
-before_action :login_check, only: [:new, :create, :index, :show, :edit, :update, :destroy]
+  before_action :login_check, only: [:new, :create, :index, :show, :edit, :update, :destroy]
+
   def top
   end
 
   def show
     @book = Book.find(params[:id])
     @booknew = Book.new
+    @post_comment = PostComment.new
   end
 
   def index
@@ -56,9 +58,9 @@ before_action :login_check, only: [:new, :create, :index, :show, :edit, :update,
   end
 
 
-def login_check
+  def login_check
     unless user_signed_in?
       redirect_to user_session_path
     end
-end
+  end
 end
