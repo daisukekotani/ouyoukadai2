@@ -1,3 +1,15 @@
+<!-- エラーメッセージ表示-->
+	<% if @book.errors.any? %>
+		<div id="error_explanation">
+			<h3><%= @book.errors.count %>error prohibited this obj from being saved:</h3><
+			<ul>
+				<% @book.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<!-- エラーメッセージ表示-->
 <div class="container">
 <div class="row">
 	<div class="col-xs-3">
@@ -32,7 +44,7 @@
             <%= render 'books/favo', book: @book %>
             </div>
           </td>
-          <td><!--コメント件数-->
+          <td><!--コメント件数 ActiveRecord::StatementInvalid in Books#show "book_id" = ?-->
 　　　　　　<%= @book.post_comment.count %>件コメント
           </td>
 					 <% if @book.user == current_user %>
@@ -42,8 +54,8 @@
 				</tr>
 			</table>
 
-
-        <% @book.post_comments.each do |post_comment| %><!--コメント本文-->
+        <!--コメント本文 ActiveRecord::StatementInvalid in Books#show "book_id" = ?-->
+        <% @book.post_comment.each do |post_comment| %>
 　　　	<table class="table">
 　　　		<tr>
 　　　			<td><!--ユーザー画像-->
@@ -57,9 +69,9 @@
 　　　			<%= post_comment.created_at.strftime('%Y/%m/%d') %>
 　　　			<%= post_comment.comment %>
 　　　			</td>
-　　　			<% if @book.user == current_user %>
+　　　			<% if post_comment.user == current_user %>
 　　　			<td><!--削除ボタン　ログインユーザーのみ-->
-　　　			<%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %>
+　　　		　　<%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger" %>
 　　　			</td>
 　　　		</tr>
 　　　	</table>

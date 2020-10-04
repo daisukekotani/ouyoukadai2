@@ -56,9 +56,8 @@
             <%= render 'books/favo', book: book %>
             </div>
           </td>
-          <td><!--コメント件数-->
-          	<%= link_to "#{book.post_comments.count} コメント", book_path(book_image.id) %>
-          </td>
+          <td><!--コメント件数 ActiveRecord::StatementInvalid in Books#index "book_id" = ?-->
+          <%= book.post_comment.count %>件コメント
 				</tr>
 				<% end %>
 			</tbody>
