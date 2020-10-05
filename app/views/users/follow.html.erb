@@ -1,0 +1,33 @@
+<div class="container">
+<div class="row">
+<div class="col-xs-12">
+<h2>Follow Users</h2>
+
+<% if @user.following_user.count == 0 %>
+<h6>ユーザーはいません</h6>
+<% else %>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>image</th>
+			<th>name</th>
+			<th colspan="3"></th>
+		</tr>
+	</thead>
+
+	<tbody>
+  <% @user.following_user.where.not(id: current_user.id).each do |user| %>
+  <tr>
+    <td><%= attachment_image_tag(user, :profile_image, :fill, 34, 34, fallback: "no-image-mini.jpg") %></td>
+    <td><%= user.name %></td>
+    <td><%= "フォロー数: #{user.follower.count}" %></td>
+		<td><%= "フォロワー数: #{user.followed.count}" %></td>
+    <td><%= link_to "show", user_path(user) %></td>
+  </tr>
+  </tbody>
+  <% end %>
+  <% end %>
+  </div><!--col-xs-12-->
+  </div><!--row-->
+  </div><!--container-->
