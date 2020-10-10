@@ -1,0 +1,2 @@
+$('#favo-button-<%= @book.id %>').html("<%= escape_javascript(render partial: "favorites/favo", locals: { book: @book }) %>")
+
