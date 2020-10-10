@@ -14,6 +14,10 @@ class User < ApplicationRecord
   has_many :following_user, through: :follower, source: :followed # 自分がフォローしている人
   has_many :follower_user, through: :followed, source: :follower # 自分をフォローしている人
 
+  #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
+  validates :name, length: {maximum: 20, minimum: 2}
+   validates :introduction, length: {maximum: 50}
+
   # ユーザーをフォローする
   def follow(user_id)
     follower.create(followed_id: user_id)
@@ -29,7 +33,19 @@ class User < ApplicationRecord
     following_user.include?(user)
   end
 
-  #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
-  validates :name, length: {maximum: 20, minimum: 2}
-   validates :introduction, length: {maximum: 50}
+def self.search(search,word)
+  if search == "forward_match"
+    @user = User.where("name LIKE?","#{word}%")
+  elsif search == "backward_match"
+    @user = User.where("name LIKE?","%#{word}")
+  elsif search == "perfect_match"
+    @user = User.where("name LIKE?","#{word}")
+  elsif search == "partial_match"
+    @user = User.where("name LIKE?","%#{word}%")
+  else
+    @user = User.all
+  end
 end
+
+end
+
